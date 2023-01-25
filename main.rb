@@ -1,5 +1,6 @@
 
 commands = ["new", "view", "complete"],
+live_app = true
 
 class TODO
     @@todos = []
@@ -35,16 +36,21 @@ end
 
 def view_command
     todos = TODO.todos
+     
+    if todos.count == 0
+        puts "No todos fount in storage..."
+        return
+    end
 
     todos.each_index {|i|
-        puts "[#{i}] Name: #{todos[i].name}"
+        puts "[#{+1}] Name: #{todos[i].name}"
     }
 
     puts "Select a number of the TODO you would like to view."
-    wanted_index = gets
+    wanted_index = gets.chomp.to_i - 1
     todo = todos[wanted_index]
 
-    if 
+    if todo
         puts "Here is the TODO requested!"
 
         puts "Name: #{todo.name}"
@@ -55,24 +61,49 @@ def view_command
     end
 end
 
-while true
+def complete_command
+    todos = TODO.todos
+     
+    if todos.count == 0
+        puts "No todos fount in storage..."
+        return
+    end
 
-    puts "Choose a command to run: (new, view, complete)"
-    command = gets
+    todos.each_index {|i|
+        puts "[#{i+1}] Name: #{todos[i].name}"
+    }
+
+    puts "Select a TODO to toggle completion for."
+
+    wanted_index = gets.chomp.to_i - 1
+
+    todo = todos[wanted_index]
+
+    if todo
+        todo.completed= true
+        puts "Todo completion has been toggled to: #{todo.completed}."
+    else
+        puts "Number does not correspond with a TODO."
+    end
+end
+
+while live_app
+
+    puts "Choose a command to run: (new, view, complete, exit)"
+    command = gets.chomp
 
     # See if it is a valid command
-
-    case  commands.index(command.downcase)
+    case command
     when "new"
-
+        new_command
     when "view"
-
+        view_command
     when "complete"
-
+        complete_command
     when "exit"
-        return
+        live_app = false
     else
         puts command + " is not a valid command!"
     end
-    
+
 end
