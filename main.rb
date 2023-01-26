@@ -1,6 +1,4 @@
-
-commands = ["new", "view", "complete"],
-live_app = true
+app_live = true
 
 class TODO
     @@todos = []
@@ -87,7 +85,7 @@ def complete_command
     end
 end
 
-while live_app
+while app_live
 
     puts "Choose a command to run: (new, view, complete, exit)"
     command = gets.chomp
@@ -101,7 +99,7 @@ while live_app
     when "complete"
         complete_command
     when "exit"
-        live_app = false
+        app_live = false
     else
         puts command + " is not a valid command!"
     end
